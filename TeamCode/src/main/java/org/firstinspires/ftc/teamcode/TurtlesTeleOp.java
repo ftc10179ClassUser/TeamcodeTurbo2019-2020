@@ -13,16 +13,22 @@ import org.firstinspires.ftc.teamcode.lib.util.states.State;
 @TeleOp(name="TeleOp", group="default")
 
 public class TurtlesTeleOp extends Configurator {
+
+    //Declare hardware
     DcMotor armMotor;
     Servo claw;
     Servo foundationGrabber;
     TouchSensor armToucher;
+
+    //Initialize values
     double slowMode = 1;
     boolean slowModeJustSwapped = false;
     boolean armLimit = true;
 
     @Override
     public void setupOpMode() {
+
+        //Initialize hardware
         armMotor = getDcMotor("armMotor");
         claw = getServo("claw");
         foundationGrabber = getServo("foundationGrabber");
@@ -32,16 +38,20 @@ public class TurtlesTeleOp extends Configurator {
         armMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         stateMachine.addState(new State(() -> { //Create a new state
+
+            //If Driver 1 presses either of the bumpers on his or her gamepad
             if ((gamepad1.right_bumper || gamepad1.left_bumper) && !slowModeJustSwapped) {
                 slowMode = (slowMode == 1) ? 2 : 1;
             }
             slowModeJustSwapped = (gamepad1.right_bumper || gamepad1.left_bumper);
 
+            //Update wheel speeds based on controller input and
             wheelController.moveXYTurn(
                     gamepad1.right_stick_x / slowMode,
                     -gamepad1.left_stick_y / slowMode,
                     -gamepad1.left_stick_x / slowMode * 0.8
             );
+
 
             double armSpeed = -gamepad2.left_stick_y;
             if (armMotor.getCurrentPosition() <= 0 && armLimit)
