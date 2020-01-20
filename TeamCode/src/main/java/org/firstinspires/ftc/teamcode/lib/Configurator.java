@@ -14,6 +14,7 @@ public abstract class Configurator extends OpMode{
     public DcMotor backLeft;
     public DcMotor backRight;
 
+    //Debug mode, one place to enable all debug logging. Also can be enabled by pressing abxy in init.
     private boolean debugMode = false;
 
     private int oldFrontLeftEncoder = 999999;
