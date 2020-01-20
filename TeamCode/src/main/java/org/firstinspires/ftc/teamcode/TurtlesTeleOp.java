@@ -7,6 +7,7 @@ import com.qualcomm.robotcore.hardware.TouchSensor;
 import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.teamcode.lib.Configurator;
+import org.firstinspires.ftc.teamcode.lib.MecanumOdometer;
 import org.firstinspires.ftc.teamcode.lib.util.states.State;
 
 @TeleOp(name="TeleOp", group="default")
@@ -59,6 +60,6 @@ public class TurtlesTeleOp extends Configurator {
             if (gamepad2.y) foundationGrabber.setPosition(0);
 
             return false;
-        }, () -> {}, "teleOp")); //Don't run anything on stop, and name it teleOp
+        }, () -> {}, "TeleOp")); //Don't run anything on stop, and name it TeleOp
     }
 }
