@@ -7,8 +7,8 @@ import org.firstinspires.ftc.teamcode.lib.AutonomousLibrary;
 import org.firstinspires.ftc.teamcode.lib.util.states.SingleState;
 import org.firstinspires.ftc.teamcode.lib.util.states.State;
 
-@Autonomous(name="NearRedSquare")
-public class NearRedSquare extends AutonomousLibrary {//Note: states are backwards, the one at the end runs first
+@Autonomous(name = "NearBlueSquare")
+public class NearBlueSquare extends AutonomousLibrary {//Note: states are backwards, the one at the end runs first
     Servo claw;
 
     @Override
@@ -17,25 +17,25 @@ public class NearRedSquare extends AutonomousLibrary {//Note: states are backwar
         claw = getServo("claw");
         claw.setPosition(0);
 
-        State strafeRightToSkybridge = new SingleState(() -> {
-            moveRightCentimeters(85, 0.5);//Strafe right 85 cm at 0.5 speed to the skybridge
-        }, "StrafeRightToSkybridge");
+        State strafeLeftToSkybridge = new SingleState(() -> {
+            moveRightCentimeters(-85, -0.5);//Strafe left 85 cm at 0.5 speed to the skybridge
+        }, "StrafeLeftToSkybridge");
 
         State releaseStone = new State(() -> {
             claw.setPosition(0);//Open the claw servo
             return false;
         }, () ->{
-            stateMachine.addState(strafeRightToSkybridge);
+            stateMachine.addState(strafeLeftToSkybridge);
         },1000,"ReleaseStone");
 
-        State strafeLeftToFoundation = new SingleState(() -> {
-            //Move 185cm left at 0.5 speed to the foundation, and run releaseStone afterward
-            moveRightCentimeters(-185, -0.5, releaseStone);
-        },"StrafeToFoundationSkybridge");
+        State strafeRightToFoundation = new SingleState(() -> {
+            //Move 185cm right at 0.5 speed past the skybridge, and run releaseStone afterward
+            moveRightCentimeters(185, 0.5, releaseStone);
+        },"StrafeRightToFoundation");
 
         State moveBackFromStones = new SingleState(() -> {
             //Move backwards 5cm at 0.5 speed from the stones, and run strafeRightToSkybridge afterward
-            moveForwardCentimeters(-5, -0.5, strafeLeftToFoundation);
+            moveForwardCentimeters(-5, -0.5, strafeRightToFoundation);
         }, "MoveBackFromStones");
 
         State grabStone = new State(() -> {
@@ -50,11 +50,11 @@ public class NearRedSquare extends AutonomousLibrary {//Note: states are backwar
             moveForwardCentimeters(75, 0.5, grabStone);
         }, "MoveForwardToStone");
 
-        State strafeLeftToAlign = new SingleState(() -> {
-            //Strafe left 7cm at 0.5 speed to align with a stone, and run moveForwardToStone afterward
-            moveRightCentimeters(-7, -0.5, moveForwardToStone);
-        }, "StrafeLeftToAlign");
+        State strafeRightToAlign = new SingleState(() -> {
+            //Strafe right 7cm at 0.5 speed to align with a stone, and run moveForwardToStone afterward
+            moveRightCentimeters(7, 0.5, moveForwardToStone);
+        }, "StrafeRightToAlign");
 
-        stateMachine.addState(strafeLeftToAlign);//After we set up the states, we add the first one to our state machine
+        stateMachine.addState(strafeRightToAlign);//After we set up the states, we add the first one to our state machine
     }
 }

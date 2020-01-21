@@ -19,7 +19,7 @@ public class NearBlueSquareStackless extends AutonomousLibrary {//Note: states a
         claw.setPosition(0);
 
         State strafeLeftToSkybridge = new SingleState(() -> {
-            moveRightCentimeters(-22, -0.5);//Strafe left 25 cm at 0.5 speed to the skybridge
+            moveRightCentimeters(-22, -0.5);//Strafe left 22 cm at 0.5 speed to the skybridge
         }, "StrafeLeftToSkybridge");
 
         State releaseStone = new State(() -> {

@@ -7,8 +7,8 @@ import org.firstinspires.ftc.teamcode.lib.AutonomousLibrary;
 import org.firstinspires.ftc.teamcode.lib.util.states.SingleState;
 import org.firstinspires.ftc.teamcode.lib.util.states.State;
 
-@Autonomous(name="NearRedSquare")
-public class NearRedSquare extends AutonomousLibrary {//Note: states are backwards, the one at the end runs first
+@Autonomous(name = "NearRedSquareStackless")
+public class NearRedSquareStackless extends AutonomousLibrary {//Note: states are backwards, the one at the end runs first
     Servo claw;
 
     @Override
@@ -18,7 +18,7 @@ public class NearRedSquare extends AutonomousLibrary {//Note: states are backwar
         claw.setPosition(0);
 
         State strafeRightToSkybridge = new SingleState(() -> {
-            moveRightCentimeters(85, 0.5);//Strafe right 85 cm at 0.5 speed to the skybridge
+            moveRightCentimeters(22, 0.5);//Strafe right 22 cm at 0.5 speed to the skybridge
         }, "StrafeRightToSkybridge");
 
         State releaseStone = new State(() -> {
@@ -28,14 +28,14 @@ public class NearRedSquare extends AutonomousLibrary {//Note: states are backwar
             stateMachine.addState(strafeRightToSkybridge);
         },1000,"ReleaseStone");
 
-        State strafeLeftToFoundation = new SingleState(() -> {
-            //Move 185cm left at 0.5 speed to the foundation, and run releaseStone afterward
-            moveRightCentimeters(-185, -0.5, releaseStone);
-        },"StrafeToFoundationSkybridge");
+        State strafeLeftPastSkybridge = new SingleState(() -> {
+            //Move 122cm left at 0.5 speed past the skybridge, and run releaseStone afterward
+            moveRightCentimeters(-122, -0.5, releaseStone);
+        },"StrafeLeftPastSkybridge");
 
         State moveBackFromStones = new SingleState(() -> {
             //Move backwards 5cm at 0.5 speed from the stones, and run strafeRightToSkybridge afterward
-            moveForwardCentimeters(-5, -0.5, strafeLeftToFoundation);
+            moveForwardCentimeters(-5, -0.5, strafeLeftPastSkybridge);
         }, "MoveBackFromStones");
 
         State grabStone = new State(() -> {
