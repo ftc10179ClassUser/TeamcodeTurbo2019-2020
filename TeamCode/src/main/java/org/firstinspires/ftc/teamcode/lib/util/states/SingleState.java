@@ -5,6 +5,7 @@ import org.firstinspires.ftc.teamcode.lib.util.command.Command;
 
 import static java.lang.System.currentTimeMillis;
 
+//A state that runs a piece of code once and immediately ends
 public class SingleState extends State {
     public SingleState(Command program) { //Most basic state, just a command to run once
         super(() -> true, program);

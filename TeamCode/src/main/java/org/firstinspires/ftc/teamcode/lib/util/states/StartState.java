@@ -5,25 +5,30 @@ import org.firstinspires.ftc.teamcode.lib.util.command.Command;
 
 import static java.lang.System.currentTimeMillis;
 
+//A modified state that runs something on it's first time
 public class StartState extends State {
     private Command programOnStart; //What runs when the state is started
 
-    public StartState(Command programOnStart, BooleanCommand program, Command programOnStop) { //Most basic state, just a command to run indefinitely
+    //Most basic state, just a command to run indefinitely
+    public StartState(Command programOnStart, BooleanCommand program, Command programOnStop) {
         super(program, programOnStop);
         this.programOnStart = programOnStart;
     }
 
-    public StartState(Command programOnStart, BooleanCommand program, Command programOnStop, long millisToRun) { //A state with a command that runs for a period of time
+    //A state with a command that runs for a period of time
+    public StartState(Command programOnStart, BooleanCommand program, Command programOnStop, long millisToRun) {
         super(program, programOnStop, millisToRun);
         this.programOnStart = programOnStart;
     }
 
-    public StartState(Command programOnStart, BooleanCommand program, Command programOnStop, String stateName) { //Named version of above
+    //Named version of above
+    public StartState(Command programOnStart, BooleanCommand program, Command programOnStop, String stateName) {
         super(program, programOnStop, stateName);
         this.programOnStart = programOnStart;
     }
 
-    public StartState(Command programOnStart, BooleanCommand program, Command programOnStop, long millisToRun, String stateName) { //Named version of above
+    //Named version of above
+    public StartState(Command programOnStart, BooleanCommand program, Command programOnStop, long millisToRun, String stateName) {
         super(program, programOnStop, millisToRun, stateName);
         this.programOnStart = programOnStart;
     }

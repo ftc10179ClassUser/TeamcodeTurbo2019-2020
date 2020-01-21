@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.lib;
 import org.firstinspires.ftc.teamcode.lib.util.states.State;
 
 public abstract class AutonomousLibrary extends Configurator {
+    //These can be configured
     private double cmToClickForward = 16.5;
     private double cmToClickRight = 24.3;
     private double slowDown = 9;
@@ -12,7 +13,6 @@ public abstract class AutonomousLibrary extends Configurator {
     public void moveForwardCentimeters(double distance, double speed) {
         double startingEncoder = wheelController.avgEncoder();
         stateMachine.addState(new State(() -> {
-            double turnAdjust = 0;//(Math.abs(wheelController.rightEncoder()) - Math.abs(wheelController.leftEncoder())) / turnDamping;
             if (Math.abs((wheelController.avgEncoder() - startingEncoder) - (distance * cmToClickForward)) >= slowDist * cmToClickForward) {
                 wheelController.moveXY(0, speed);
             } else {
@@ -29,7 +29,6 @@ public abstract class AutonomousLibrary extends Configurator {
     public void moveRightCentimeters(double distance, double speed) {
         double startingEncoder = wheelController.rightEncoder();
         stateMachine.addState(new State(() -> {
-            double turnAdjust = 0;//(Math.abs(wheelController.rightEncoder()) - Math.abs(backRight.getCurrentPosition())) / turnDamping;
             if (Math.abs((wheelController.rightEncoder() - startingEncoder) - (distance * cmToClickRight)) >= slowDist * cmToClickRight) {
                 wheelController.moveXY(speed, 0);
             } else {
@@ -46,7 +45,6 @@ public abstract class AutonomousLibrary extends Configurator {
     public void moveForwardCentimeters(double distance, double speed, State runOnStop) {
         double startingEncoder = wheelController.avgEncoder();
         stateMachine.addState(new State(() -> {
-            double turnAdjust = 0;//(Math.abs(wheelController.rightEncoder()) - Math.abs(wheelController.leftEncoder())) / turnDamping;
             if (Math.abs((wheelController.avgEncoder() - startingEncoder) - (distance * cmToClickForward)) >= slowDist * cmToClickForward) {
                 wheelController.moveXY(0, speed);
             } else {
@@ -64,7 +62,6 @@ public abstract class AutonomousLibrary extends Configurator {
     public void moveRightCentimeters(double distance, double speed, State runOnStop) {
         double startingEncoder = wheelController.rightEncoder();
         stateMachine.addState(new State(() -> {
-            double turnAdjust = 0;//(Math.abs(wheelController.rightEncoder()) - Math.abs(backRight.getCurrentPosition())) / turnDamping;
             if (Math.abs((wheelController.rightEncoder() - startingEncoder) - (distance * cmToClickRight)) >= slowDist * cmToClickRight) {
                 wheelController.moveXY(speed, 0);
             } else {
