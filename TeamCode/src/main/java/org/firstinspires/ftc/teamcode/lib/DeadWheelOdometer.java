@@ -27,12 +27,12 @@ public class DeadWheelOdometer {
     private PVector leftWheelPos = new PVector(-7.0, 4.0);
     private PVector centerWheelPos = new PVector(0.0, -6.0);
     private PVector rightWheelPos = new PVector(7.0, 4.0);
-    double wheelRadius = 4.75;
+    double wheelRadius = 3;
     double strafeEfficiency = 1.0;
     double forwardEfficiency = 1.0;
 
     //Configure this to our motors
-    double ticksToDegrees = 0.79998;
+    double ticksToDegrees = 360.0/8192.0;
 
     //If turning is broken, try changing this to -1 or 1
     double turnerThinger = 1.0;
@@ -46,20 +46,11 @@ public class DeadWheelOdometer {
     double centerCircumference = Math.abs(centerWheelPos.y - ((rightWheelPos.y + leftWheelPos.y)/2)) * 2.0 * Math.PI;
 
     private void odometryLoop() {
-        /* The math behind this code: (W for omega)
-        If W_n is the rotation change for wheel n, r is the wheel radius, and K is |X of wheel n| + |Y of wheel n|,
-        then we can find the robot's velocity V and rotation velocity W_v using
+        double leftDistChange = ((leftOdometer.getCurrentPosition() - oldLeftEncoder) * ticksToDegrees) * wheelCircumference;
+        double rightDistChange = ((rightOdometer.getCurrentPosition() - oldRightEncoder) * ticksToDegrees) * wheelCircumference;
+        double centerDistChange = ((centerOdometer.getCurrentPosition() - oldBackLeftEncoder) * ticksToDegrees) * wheelCircumference;
 
-        r * (1/4W_1 + 1/4W_2 + 1/4W_3 + 1/4W_4)                =   V_x
-        r * (-1/4W_1 + 1/4W_2 - 1/4W_3 + 1/4W_4)               =   V_y
-        r * (-1/(4K)W_1 - 1/(4K)W_2 + 1/(4K)W_3 + 1/(4K)W_4)   =   W_v
-        */
-
-        double leftDistChange = ((oldLeftEncoder - leftOdometer.getCurrentPosition()) * ticksToDegrees) * wheelCircumference;
-        double rightDistChange = ((oldRightEncoder - rightOdometer.getCurrentPosition()) * ticksToDegrees) * wheelCircumference;
-        double centerDistChange = ((oldBackLeftEncoder - centerOdometer.getCurrentPosition()) * ticksToDegrees) * wheelCircumference;
-
-        double localRobotRot = (((leftDistChange - rightDistChange) / 2.0) / turnCircumference) * 360.0 * turnerThinger;
+        double localRobotRot = (((rightDistChange - leftDistChange) / 2.0) / turnCircumference) * 360.0 * turnerThinger;
 
         PVector localRobotPos;
         localRobotPos = new PVector(
