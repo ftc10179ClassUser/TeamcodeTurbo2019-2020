@@ -83,6 +83,7 @@ public class DeadWheelOdometer {
     }
 
     public void beginOdometry() {
+        //Get all of the motors from our config
         leftOdometer = config.getDcMotor("leftOdometer");
         rightOdometer = config.getDcMotor("rightOdometer");
         centerOdometer = config.getDcMotor("centerOdometer");

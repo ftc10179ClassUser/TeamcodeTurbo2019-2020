@@ -56,11 +56,7 @@ public abstract class Configurator extends OpMode{
             return hardwareMap.dcMotor.get(name);
         } catch (Exception e) {
             telemetry.addLine("CFG: Could not find motor \"" + name + "\", add to config.");
-            try {
-                return DcMotor.class.newInstance();
-            } catch (Exception ex) {
-                return null;
-            }
+            return null;
         }
     }
 
