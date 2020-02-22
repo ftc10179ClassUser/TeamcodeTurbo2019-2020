@@ -10,7 +10,7 @@ import org.firstinspires.ftc.teamcode.lib.util.states.SingleState;
 import org.firstinspires.ftc.teamcode.lib.util.states.State;
 
 @Autonomous(name="NearBlueSquare")
-public class NearBlueSquare extends AutonomousLibrary {//Note: States run backwards, the one at the bottom runs first
+public class NearBlueSquare extends AutonomousLibrary {//Note: States run backwards, so the one at the bottom runs first
     //Declare claw servo and armMotor
     Servo claw;
     Servo claw2;
@@ -96,7 +96,7 @@ public class NearBlueSquare extends AutonomousLibrary {//Note: States run backwa
         },"ReleaseStone");//Name the state ReleaseStone
 
         State goToFoundation = new State(() -> {//Creates a new State, goToFoundation
-            setTargetXYRot(backFromStones, 270);//Move back from the stones to avoid collision with the skybridge
+            setTargetXYRot(backFromStones, 270);//Move back from the quarry to avoid collision with the Skybridge
             setTargetXYRot(foundation,270,releaseStone);//Go to foundation and passes releaseStone into the state machine
             return false;
         },() -> {}, "GoToFoundation");//Name the state GoToFoundation

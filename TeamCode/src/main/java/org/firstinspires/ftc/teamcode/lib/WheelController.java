@@ -39,7 +39,7 @@ public class WheelController { //This class can be changed for each drive train 
         return frontLeft.getCurrentPosition();
     }
 
-    public int rightEncoder() { //Returns the frontright encoder
+    public int rightEncoder() { //Returns the frontRight encoder
         return frontRight.getCurrentPosition();
     }
 
@@ -60,7 +60,7 @@ public class WheelController { //This class can be changed for each drive train 
         double backLeftSpd = -ty;
         double backRightSpd = -ty;
 
-        //Add the strafing values
+        //Factor in the strafing values
         frontLeftSpd -= tx;
         backLeftSpd += tx;
         frontRightSpd += tx;
@@ -94,13 +94,13 @@ public class WheelController { //This class can be changed for each drive train 
         double backLeftSpd = -ty;
         double backRightSpd = -ty;
 
-        //Add the strafing values
+        //Factor in the strafing values
         frontLeftSpd -= tx;
         backLeftSpd += tx;
         frontRightSpd += tx;
         backRightSpd -= tx;
 
-        //Add the turning values
+        //Factor in the turning values
         frontLeftSpd += tspeed;
         backLeftSpd += tspeed;
         frontRightSpd -= tspeed;
@@ -204,7 +204,7 @@ public class WheelController { //This class can be changed for each drive train 
 
         runUsingEncoder(); //Turn on encoder speed adjustments
 
-        //Reverse frontLeft and backLeft so the wheels all go forward
+        //Reverse left wheels so the wheels all go forward
         frontLeft.setDirection(DcMotorSimple.Direction.REVERSE);
         backLeft.setDirection(DcMotorSimple.Direction.REVERSE);
     }

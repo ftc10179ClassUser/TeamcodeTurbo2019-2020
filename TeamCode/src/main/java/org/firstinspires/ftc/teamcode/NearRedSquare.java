@@ -10,7 +10,7 @@ import org.firstinspires.ftc.teamcode.lib.util.states.SingleState;
 import org.firstinspires.ftc.teamcode.lib.util.states.State;
 
 @Autonomous(name="NearRedSquare")
-public class NearRedSquare extends AutonomousLibrary {//Note: States run backwards, the one at the bottom runs first
+public class NearRedSquare extends AutonomousLibrary {//Note: States run backwards, so the one at the bottom runs first
 
     //Declare servos and armMotor
     Servo claw;

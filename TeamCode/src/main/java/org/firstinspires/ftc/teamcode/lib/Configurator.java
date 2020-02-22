@@ -15,25 +15,30 @@ import java.util.List;
 
 @Disabled
 public abstract class Configurator extends OpMode{
+    //Our robot's motors
     public DcMotor frontLeft;
     public DcMotor frontRight;
     public DcMotor backLeft;
     public DcMotor backRight;
 
+    //Debug mode, one place to enable all debug logging; enabled by pressing ABXY on Driver 1.
     private boolean debugMode = false;
 
+    //These are stored for the user
     public StateMachine stateMachine;
     public WheelController wheelController;
 
     ElapsedTime timer = new ElapsedTime();
     List<Double> avgTime = new ArrayList<>();
 
+    //Get an IMU safely / initialize even if it has errors
     public BNO055IMU getIMU(String name) {
         try {
             return hardwareMap.get(BNO055IMU.class, name);
         } catch (Exception e) {
             telemetry.addLine("CFG: Could not find IMU \"" + name + "\", add to config.");
             try {
+                //Most of this parameter setup code is only for the IMU to set up our preferences
                 BNO055IMU imu = hardwareMap.get(BNO055IMU.class, name);
                 BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
 
@@ -51,6 +56,7 @@ public abstract class Configurator extends OpMode{
         }
     }
 
+    //Get a DcMotor safely
     public DcMotor getDcMotor(String name) {
         try {
             return hardwareMap.dcMotor.get(name);
@@ -60,6 +66,7 @@ public abstract class Configurator extends OpMode{
         }
     }
 
+    //Get a servo safely
     public Servo getServo(String name) {
         try {
             return hardwareMap.servo.get(name);
@@ -73,6 +80,7 @@ public abstract class Configurator extends OpMode{
         }
     }
 
+    //Get a touch sensor safely
     public TouchSensor getTouchSensor(String name) {
         try {
             return hardwareMap.touchSensor.get(name);
@@ -85,6 +93,7 @@ public abstract class Configurator extends OpMode{
             }
         }
     }
+
 
     @Override
     public void init() { //On init, setup motors, stateMachine, and wheelController
@@ -104,6 +113,7 @@ public abstract class Configurator extends OpMode{
         if (gamepad1.a && gamepad1.b && gamepad1.x && gamepad1.y) debugMode = true;
     }
 
+    //This is where the code for autonomous goes
     public abstract void setupOpMode();
 
     @Override
@@ -128,6 +138,7 @@ public abstract class Configurator extends OpMode{
         telemetry.update();
     }
 
+    //Safely access debug mode so that it cannot be set anywhere but here
     public boolean getDebugMode() {
         return debugMode;
     }

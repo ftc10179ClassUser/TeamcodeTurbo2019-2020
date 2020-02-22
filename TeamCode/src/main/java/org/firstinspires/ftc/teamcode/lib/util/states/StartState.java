@@ -18,12 +18,12 @@ public class StartState extends State {
         this.programOnStart = programOnStart;
     }
 
-    public StartState(Command programOnStart, BooleanCommand program, Command programOnStop, String stateName) { //Named version of above
+    public StartState(Command programOnStart, BooleanCommand program, Command programOnStop, String stateName) { //Named version of the state above
         super(program, programOnStop, stateName);
         this.programOnStart = programOnStart;
     }
 
-    public StartState(Command programOnStart, BooleanCommand program, Command programOnStop, long millisToRun, String stateName) { //Named version of above
+    public StartState(Command programOnStart, BooleanCommand program, Command programOnStop, long millisToRun, String stateName) { //Named version of the state above
         super(program, programOnStop, millisToRun, stateName);
         this.programOnStart = programOnStart;
     }

@@ -29,13 +29,13 @@ public class State {
         isTimer = true;
     }
 
-    public State(BooleanCommand program, Command programOnStop, String stateName) { //Named version of above
+    public State(BooleanCommand program, Command programOnStop, String stateName) { //Named version of the state above
         this.program = program;
         this.programOnStop = programOnStop;
         this.stateName = stateName;
     }
 
-    public State(BooleanCommand program, Command programOnStop, long millisToRun, String stateName) { //Named version of above
+    public State(BooleanCommand program, Command programOnStop, long millisToRun, String stateName) { //Named version of the state above
         this.program = program;
         this.programOnStop = programOnStop;
         this.stateName = stateName;

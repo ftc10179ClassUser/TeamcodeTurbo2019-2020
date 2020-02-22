@@ -122,7 +122,7 @@ public class MecanumOdometer { //IMPORTANT!!!!! When configuring +Y is left, +X 
         oldBackLeftEncoder = config.backLeft.getCurrentPosition();
         oldBackRightEncoder = config.backRight.getCurrentPosition();
 
-        //Ad a state tu run odometry functions every tick
+        //Add a state to run odometry functions every tick
         State odometryState = new State(() -> {
             //Run both odometry loops
             odometryLoop();

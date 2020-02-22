@@ -9,7 +9,7 @@ import org.firstinspires.ftc.teamcode.lib.util.states.StartState;
 import org.firstinspires.ftc.teamcode.lib.util.states.State;
 
 @Autonomous(name="NearBlueTriangle")
-public class NearBlueTriangle extends AutonomousLibrary {//Note: States run backwards, the one at the bottom runs first
+public class NearBlueTriangle extends AutonomousLibrary {//Note: States run backwards, so the one at the bottom runs first
     //Declare servos
     Servo foundationGrabber;
     Servo foundationGrabber2;

@@ -86,7 +86,7 @@ public class DeadWheelOdometer {
         oldRightEncoder = rightOdometer.getCurrentPosition();
         oldCenterEncoder = centerOdometer.getCurrentPosition();
 
-        //Ad a state tu run odometry functions every tick
+        //Add a state to run odometry functions every tick
         State odometryState = new State(() -> {
             //Run both odometry loops
             odometryLoop();
