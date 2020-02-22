@@ -1,11 +1,11 @@
 import org.firstinspires.ftc.teamcode.lib.DeadWheelOdometer;
 import org.firstinspires.ftc.teamcode.lib.util.data.PVector;
+import org.firstinspires.ftc.teamcode.lib.util.data.Translate2D;
 import org.junit.Before;
 import org.junit.Test;
 
 import FakeHardware.FakeConfigurator;
 import org.firstinspires.ftc.teamcode.lib.DeadWheelOdometer.DeadWheelEncoderValues;
-import org.firstinspires.ftc.teamcode.lib.DeadWheelOdometer.Position2D;
 import TestUtilities.SimFormat;
 
 public class DeadWheelOdometerTest {
@@ -39,10 +39,10 @@ public class DeadWheelOdometerTest {
         System.out.println( deadWheelOdometer.getPos().toString() );
 
         // Basic input/output
-        Position2D position2D;
+        Translate2D translate2D;
         DeadWheelEncoderValues deadWheelEncoderValues = new DeadWheelEncoderValues(0,0,0);
-        position2D = deadWheelOdometer.odometryCalculation(deadWheelEncoderValues);
-        System.out.println(position2D);
+        translate2D = deadWheelOdometer.odometryCalculation(deadWheelEncoderValues);
+        System.out.println(translate2D);
 
         // Same as above, but streamlined.
         setEncoderAndDisplayPosition(0,0,0); // Why are we getting movement?
@@ -79,8 +79,8 @@ public class DeadWheelOdometerTest {
     }
 
     private void setEncoderAndDisplayPosition(DeadWheelEncoderValues deadWheelEncoderValues) {
-        Position2D position2D;
-        position2D = deadWheelOdometer.odometryCalculation(deadWheelEncoderValues);
+        Translate2D translate2D;
+        translate2D = deadWheelOdometer.odometryCalculation(deadWheelEncoderValues);
 
 
         // Print Output
@@ -102,7 +102,7 @@ public class DeadWheelOdometerTest {
 
         System.out.print(SimFormat.padStringTo(35, deadWheelEncoderValues.toString()));
         System.out.print("|");
-        System.out.println(SimFormat.padCenteredStringTo(38, position2D.toString()));
+        System.out.println(SimFormat.padCenteredStringTo(38, translate2D.toString()));
 
     }
 }
