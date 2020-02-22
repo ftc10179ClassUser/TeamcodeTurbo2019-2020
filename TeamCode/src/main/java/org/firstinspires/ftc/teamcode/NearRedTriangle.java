@@ -38,7 +38,7 @@ public class NearRedTriangle extends AutonomousLibrary {//Note: states are backw
 
         State grabPlatform = new State(() -> {
             foundationGrabber.setPosition(1); //Close the foundation grabber servo
-            foundationGrabber.setPosition(0);
+            foundationGrabber2.setPosition(0);
             return false;
         }, () -> { //When the state is done
             stateMachine.addState(moveBackwardFromPlatform); //Run moveBackwardFromPlatform
