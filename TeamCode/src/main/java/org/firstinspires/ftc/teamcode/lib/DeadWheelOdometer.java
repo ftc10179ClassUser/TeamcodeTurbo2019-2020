@@ -49,15 +49,6 @@ public class DeadWheelOdometer {
 
 
     public Translate2D odometryCalculation(DeadWheelEncoderValues currentEncoderValues) {
-        /* The math behind this code: (W for omega)
-        If W_n is the rotation change for wheel n, r is the wheel radius, and K is |X of wheel n| + |Y of wheel n|,
-        then we can find the robot's velocity V and rotation velocity W_v using
-
-        r * (1/4W_1 + 1/4W_2 + 1/4W_3 + 1/4W_4)                =   V_x
-        r * (-1/4W_1 + 1/4W_2 - 1/4W_3 + 1/4W_4)               =   V_y
-        r * (-1/(4K)W_1 - 1/(4K)W_2 + 1/(4K)W_3 + 1/(4K)W_4)   =   W_v
-        */
-
         double leftDistChange = ((currentEncoderValues.left - oldLeftEncoder) * ticksToDegrees) * wheelCircumference;
         double rightDistChange = ((currentEncoderValues.right - oldRightEncoder) * ticksToDegrees) * wheelCircumference;
         double centerDistChange = ((currentEncoderValues.center - oldBackLeftEncoder) * ticksToDegrees) * wheelCircumference;

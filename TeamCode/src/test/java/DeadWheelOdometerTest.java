@@ -45,19 +45,30 @@ public class DeadWheelOdometerTest {
         System.out.println(translate2D);
 
         // Same as above, but streamlined.
-        setEncoderAndDisplayPosition(0,0,0); // Why are we getting movement?
-        setEncoderAndDisplayPosition(0,0,0);
+        setEncoderAndDisplayPosition(0,0,0); // Why are we getting movement
         setEncoderAndDisplayPosition(100,0,100);
+        setEncoderAndDisplayPosition(0,0,0);
         setEncoderAndDisplayPosition(-100,0,-100);
+        setEncoderAndDisplayPosition(0,0,0);
         setEncoderAndDisplayPosition(100,0,-100);
+        setEncoderAndDisplayPosition(0,0,0);
         setEncoderAndDisplayPosition(-100,0,100);
+        setEncoderAndDisplayPosition(0,0,0);
+        setEncoderAndDisplayPosition(0,100, 0);
+        setEncoderAndDisplayPosition(0,0,0);
+        setEncoderAndDisplayPosition(0,-100, 0);
+    }
 
-        setEncoderAndDisplayPosition(8192,0,8192);
-        setEncoderAndDisplayPosition(-8192,0,8192);
-        setEncoderAndDisplayPosition(8192,0,-8192);
+    @Test
+    public void accumulated_ticks() {
+        System.out.println("Encoder Raw Input test");
+        System.out.println( deadWheelOdometer.getPos().toString() );
 
-        setEncoderAndDisplayPosition(0,8192, 0);
-        setEncoderAndDisplayPosition(0,-8192, 0);
+        DeadWheelEncoderValues accumulatedTicks = new DeadWheelEncoderValues(0,0,0);
+        //
+        accumulatedTicks = accumulatedTicks.addAndReturn(new DeadWheelEncoderValues(0,0,0) );
+        setEncoderAndDisplayPosition(accumulatedTicks);
+
     }
 
 
