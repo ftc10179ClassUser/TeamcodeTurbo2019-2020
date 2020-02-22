@@ -18,8 +18,8 @@ public class WheelController { //This class can be changed for each drive train 
     private boolean faultOccured = false;
 
     public boolean crispDrive = false; //CrispDrive - Uses encoders to ensure stops
-    private int stopTickCount = 2; //less than this # of ticks of movement will be zero power
-    private int maxCrispnessChange = 120; //more than or = to this # of ticks will be full power
+    private int stopTickCount = 8; //less than this # of ticks of movement will be zero power
+    private int maxCrispnessChange = 500; //more than or = to this # of ticks will be full power
     private int stopFrontLeftEncoder = 0;
     private int stopFrontRightEncoder = 0;
     private int stopBackLeftEncoder = 0;
