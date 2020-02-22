@@ -10,18 +10,22 @@ import org.firstinspires.ftc.teamcode.lib.util.states.State;
 @Autonomous(name="NearBlueTriangle")
 public class NearBlueTriangle extends AutonomousLibrary {//Note: states are backwards, the one at the end runs first
     Servo foundationGrabber;
+    Servo foundationGrabber2;
 
     @Override
     public void setupOpMode() {
         foundationGrabber = getServo("foundationGrabber"); //Get the foundation grabber servo
-        foundationGrabber.setPosition(0.5);
+        foundationGrabber.setPosition(0);
+        foundationGrabber2 = getServo("foundationGrabber2"); //Get the foundation grabber servo
+        foundationGrabber2.setPosition(1);
 
         State strafeRightToBridge = new StartState(() -> {
             moveRightCentimeters(-120, -0.5); //Strafe left 120cm at 0.5 speed to the bridge
         }, () -> true, () -> {}, "StrafeRightToBridge");
 
         State releasePlatform = new State(() -> {
-            foundationGrabber.setPosition(1); //Open the foundation grabber servo
+            foundationGrabber.setPosition(0); //Open the foundation grabber servo
+            foundationGrabber2.setPosition(1);
             return false;
         }, () -> { //When the state is done
             stateMachine.addState(strafeRightToBridge); //Run strafeRightToBridge
@@ -33,7 +37,8 @@ public class NearBlueTriangle extends AutonomousLibrary {//Note: states are back
         }, () -> true, () -> {},"MoveBackwardFromPlatform");
 
         State grabPlatform = new State(() -> {
-            foundationGrabber.setPosition(0); //Close the foundation grabber servo
+            foundationGrabber.setPosition(1); //Close the foundation grabber servo
+            foundationGrabber2.setPosition(0);
             return false;
         }, () -> { //When the state is done
             stateMachine.addState(moveBackwardFromPlatform); //Run moveBackwardFromPlatform
