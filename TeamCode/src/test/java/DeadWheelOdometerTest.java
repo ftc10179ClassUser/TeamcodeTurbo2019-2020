@@ -5,7 +5,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import FakeHardware.FakeConfigurator;
-import org.firstinspires.ftc.teamcode.lib.DeadWheelOdometer.DeadWheelEncoderValues;
+import org.firstinspires.ftc.teamcode.lib.util.data.DeadWheelEncoderValues;
 import TestUtilities.SimFormat;
 
 public class DeadWheelOdometerTest {
