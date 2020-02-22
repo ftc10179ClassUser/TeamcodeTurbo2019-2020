@@ -51,6 +51,13 @@ public class DeadWheelOdometerTest {
         setEncoderAndDisplayPosition(-100,0,-100);
         setEncoderAndDisplayPosition(100,0,-100);
         setEncoderAndDisplayPosition(-100,0,100);
+
+        setEncoderAndDisplayPosition(8192,0,8192);
+        setEncoderAndDisplayPosition(-8192,0,8192);
+        setEncoderAndDisplayPosition(8192,0,-8192);
+
+        setEncoderAndDisplayPosition(0,8192, 0);
+        setEncoderAndDisplayPosition(0,-8192, 0);
     }
 
 
