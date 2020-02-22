@@ -28,35 +28,35 @@ public class NearRedTriangle extends AutonomousLibrary { //Note: the states are 
         PVector loadingZone = new PVector(342.9,311.76);
         PVector underSkybridge = new PVector(269.7, 182.88);
 
-        State strafeToBridge = new StartState(() -> {
-            setTargetXYRot(underSkybridge, 90);
-        }, () -> true, () -> {}, "StrafeRightToBridge");
+        State strafeToBridge = new StartState(() -> {//Create a new StartState, strafeToBridge
+            setTargetXYRot(underSkybridge, 90);//Navigate
+        }, () -> true, () -> {}, "StrafeRightToBridge");//Name the state StrafeRightToBridge
 
-        State releasePlatform = new State(() -> {
+        State releasePlatform = new State(() -> {//Create a new State, releasePlatform
             //Pull up the foundation grabber servo
             foundationGrabber.setPosition(0);
             foundationGrabber2.setPosition(1);
             return false;
         }, () -> { //When the state is done
-            stateMachine.addState(strafeToBridge); //Run this state
-        }, 1000, "ReleasePlatform");
+            stateMachine.addState(strafeToBridge); //Pass strafeToBridge into the state machine
+        }, 1000, "ReleasePlatform");//Name the state ReleasePlatform and run for 1 second
 
-        State pullBackFoundation = new StartState(() -> {
-            setTargetXYRot(loadingZone, 90, releasePlatform);
-        }, () -> true, () -> {},"MoveBackwardFromPlatform");
+        State pullBackFoundation = new StartState(() -> {//Create a new StartState, pullBackFoundation
+            setTargetXYRot(loadingZone, 90, releasePlatform);//Move foundation into the loading zone and run releasePlatform afterward
+        }, () -> true, () -> {},"MoveBackwardFromPlatform");//Name the state MoveBackwardFromPlatform
 
-        State grabPlatform = new State(() -> {
+        State grabPlatform = new State(() -> {//Create a new State, grabPlatform
             //Push down the foundation grabber servo
             foundationGrabber.setPosition(1);
             foundationGrabber2.setPosition(0);
             return false;
         }, () -> { //When the state is done
-            stateMachine.addState(pullBackFoundation); //Run this state
-        }, 1000, "GrabPlatform");
+            stateMachine.addState(pullBackFoundation); //Pass pullBackFoundation into the state machine
+        }, 1000, "GrabPlatform");//Name the state GrabPlatform and run for 1 second
 
-        State moveToPlatform = new StartState(() -> {
-            setTargetXYRot(foundation, 90, grabPlatform);
-        }, () -> true, () -> {}, "MoveForwardToPlatform");
+        State moveToPlatform = new StartState(() -> {//Create a new StartState, moveToPlatform
+            setTargetXYRot(foundation, 90, grabPlatform);//Move to platform and run grabPlatform afterward
+        }, () -> true, () -> {}, "MoveForwardToPlatform");//Name the state MoveForwardToPlatform
 
         stateMachine.addState(moveToPlatform); //After we setup the states, add the first one to our stateMachine
     }

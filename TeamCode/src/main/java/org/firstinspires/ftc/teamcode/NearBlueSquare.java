@@ -10,7 +10,7 @@ import org.firstinspires.ftc.teamcode.lib.util.states.SingleState;
 import org.firstinspires.ftc.teamcode.lib.util.states.State;
 
 @Autonomous(name="NearBlueSquare")
-public class NearBlueSquare extends AutonomousLibrary {
+public class NearBlueSquare extends AutonomousLibrary {//Note: States run backwards, the one at the bottom runs first
     //Declare claw servo and armMotor
     Servo claw;
     Servo claw2;
@@ -35,7 +35,7 @@ public class NearBlueSquare extends AutonomousLibrary {
 
         armMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);//Set encoder value of armMotor to 0
         armMotor.setTargetPosition(armDownEncoder);//Lower arm
-        armMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        armMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);//Set motors to run until they meet a specified encoder value
 
         //Open claw
         claw.setPosition(0);
@@ -49,7 +49,7 @@ public class NearBlueSquare extends AutonomousLibrary {
         PVector startingPos = new PVector(342.9,83.82);
         initializeOdometry(startingPos,270);
 
-        //Set waypoints
+        //Set way points
         PVector stone = new PVector(266.7,91.44);
         PVector backFromStones = new PVector(269.7,91.44);
         PVector foundation = new PVector(266.7,311.76);
@@ -57,12 +57,11 @@ public class NearBlueSquare extends AutonomousLibrary {
         PVector underSkybridge = new PVector(269.7, 182.88);
 
         State strafeRightUnderSkybridge = new SingleState(() -> {//Creates a new SingleState, strafeRightUnderSkybridge
-            //Strafe right to Navigate
-            setTargetXYRot(underSkybridge, 270);
+            setTargetXYRot(underSkybridge, 270);//Navigate
         }, "StrafeRightUnderSkybridge");//Name the state StrafeRightUnderSkybridge
 
         State moveBackToLoadingZone = new State(() -> {//Creates a new State, moveBackToLoadingZone
-            setTargetXYRot(loadingZone, 90);
+            setTargetXYRot(loadingZone, 90);//Move foundation into the loading zone
 
             //Release foundation
             foundationGrabber.setPosition(0);
@@ -70,12 +69,11 @@ public class NearBlueSquare extends AutonomousLibrary {
 
             return false;
         }, () -> {
-            stateMachine.addState(strafeRightUnderSkybridge);
-        }, "MoveBackToLoadingZone");
+            stateMachine.addState(strafeRightUnderSkybridge);//Pass strafeRightUnderSkybridge into the state machine
+        }, "MoveBackToLoadingZone");//Name the state MoveBackToLoadingZone
 
-        State turnAroundToFoundation = new State(() -> {
-            //Turn around to present the foundation grabber to the foundation
-            setTargetXYRot(foundation, 90);
+        State turnAroundToFoundation = new State(() -> {//Creates a new state, turnAroundToFoundation
+            setTargetXYRot(foundation, 90);//Turn around to grab the foundation
 
             //Grab foundation
             foundationGrabber.setPosition(1);
@@ -83,8 +81,8 @@ public class NearBlueSquare extends AutonomousLibrary {
 
             return false;
         }, () -> {
-            stateMachine.addState(moveBackToLoadingZone);
-        }, "TurnAround");
+            stateMachine.addState(moveBackToLoadingZone);//Pass moveBackToLoadingZone into the state machine
+        }, "TurnAround");//Name the state TurnAround
 
         State releaseStone = new State(() -> {//Creates a new state, releaseStone
             //Deliver the stone
@@ -94,7 +92,7 @@ public class NearBlueSquare extends AutonomousLibrary {
             armMotor.setTargetPosition(armDownEncoder);//Lower arm
             return false;
         }, () -> {
-            stateMachine.addState(turnAroundToFoundation);//Pass strafeLeftUnderSkybridge into the state machine
+            stateMachine.addState(turnAroundToFoundation);//Pass turnAroundToFoundation into the state machine
         },"ReleaseStone");//Name the state ReleaseStone
 
         State goToFoundation = new State(() -> {//Creates a new State, goToFoundation

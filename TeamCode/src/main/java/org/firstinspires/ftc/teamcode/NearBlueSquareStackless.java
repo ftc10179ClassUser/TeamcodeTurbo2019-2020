@@ -11,7 +11,7 @@ import org.firstinspires.ftc.teamcode.lib.util.states.SingleState;
 import org.firstinspires.ftc.teamcode.lib.util.states.State;
 
 @Autonomous(name="NearBlueSquareStackless")
-public class NearBlueSquareStackless extends AutonomousLibrary {
+public class NearBlueSquareStackless extends AutonomousLibrary {//Note: States run backwards, the one at the bottom runs first
     //Declare claw servo and armMotor
     Servo claw;
     Servo claw2;
@@ -41,15 +41,14 @@ public class NearBlueSquareStackless extends AutonomousLibrary {
         PVector startingPos = new PVector(342.9,83.82);
         initializeOdometry(startingPos,270);
 
-        //Set waypoints
+        //Set way points
         PVector stone = new PVector(266.7,91.44);
         PVector backFromStones = new PVector(269.7,91.44);
         PVector foundation = new PVector(99.06,311.76);
         PVector underSkybridge = new PVector(269.7, 182.88);
 
         State strafeLeftUnderSkybridge = new SingleState(() -> {//Creates a new SingleState, strafeLeftUnderSkybridge
-            //Strafe left to Navigate
-            setTargetXYRot(underSkybridge, 270);
+            setTargetXYRot(underSkybridge, 270);//Navigate
         }, "StrafeLeftUnderSkybridge");//Name the state StrafeLeftUnderSkybridge
 
         State releaseStone = new State(() -> {//Creates a new state, releaseStone

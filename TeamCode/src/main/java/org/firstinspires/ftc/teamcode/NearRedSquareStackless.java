@@ -10,7 +10,7 @@ import org.firstinspires.ftc.teamcode.lib.util.states.SingleState;
 import org.firstinspires.ftc.teamcode.lib.util.states.State;
 
 @Autonomous(name="NearRedSquareStackless")
-public class NearRedSquareStackless extends AutonomousLibrary {
+public class NearRedSquareStackless extends AutonomousLibrary {//Note: States run backwards, the one at the bottom runs first
 
     //Declare claw servo and armMotor
     Servo claw;
@@ -40,15 +40,14 @@ public class NearRedSquareStackless extends AutonomousLibrary {
         PVector startingPos = new PVector(22.86,83.82);
         initializeOdometry(startingPos,90);
 
-        //Set waypoints
+        //Set way points
         PVector stone = new PVector(99.06,91.44);
         PVector backFromStones = new PVector(96.06,91.44);
         PVector foundation = new PVector(99.06,311.76);
         PVector underSkybridge = new PVector(96.06, 182.88);
 
         State strafeRightUnderSkybridge = new SingleState(() -> {//Creates a new SingleState, strafeRightUnderSkybridge
-            //Strafe right to Navigate
-            setTargetXYRot(underSkybridge, 90);
+            setTargetXYRot(underSkybridge, 90);//Navigate
         }, "StrafeRightUnderSkybridge");//Name the state StrafeRightUnderSkybridge
 
         State releaseStone = new State(() -> {//Creates a new state, releaseStone
@@ -69,7 +68,10 @@ public class NearRedSquareStackless extends AutonomousLibrary {
         }, () -> {}, "GoToTriangleSide");//Name the state GoToTriangleSide
 
         State grabStone = new State(() -> {//Creates a new state, grabStone
-            claw.setPosition(1);//Grab the stone
+            //Grab the stone
+            claw.setPosition(1);
+            claw2.setPosition(0);
+
             armMotor.setTargetPosition(armUpEncoder);//Raise arm for easier transport
             return false;
         }, () -> {

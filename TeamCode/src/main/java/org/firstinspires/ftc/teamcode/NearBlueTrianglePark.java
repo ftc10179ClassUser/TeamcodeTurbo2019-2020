@@ -8,7 +8,7 @@ import org.firstinspires.ftc.teamcode.lib.util.states.StartState;
 import org.firstinspires.ftc.teamcode.lib.util.states.State;
 
 @Autonomous(name="NearBlueTrianglePark")
-public class NearBlueTrianglePark extends AutonomousLibrary {
+public class NearBlueTrianglePark extends AutonomousLibrary { //Note: the states are backwards, the one at the end runs first
 
     @Override
     public void setupOpMode() {
@@ -19,10 +19,10 @@ public class NearBlueTrianglePark extends AutonomousLibrary {
         //Initialize waypoints
         PVector underSkybridge = new PVector(96.06, 182.88);
 
-        State strafeToBridge = new StartState(() -> {
-            setTargetXYRot(underSkybridge, 270);
+        State strafeToBridge = new StartState(() -> {//Create a new StartState, strafeToBridge
+            setTargetXYRot(underSkybridge, 270);//Navigate
         }, () -> true, () -> {
-        }, "StrafeRightToBridge");
+        }, "StrafeRightToBridge");//Name the state StrafeRightToBridge
 
         stateMachine.addState(strafeToBridge); //After we setup the states, add the first one to our stateMachine
     }
