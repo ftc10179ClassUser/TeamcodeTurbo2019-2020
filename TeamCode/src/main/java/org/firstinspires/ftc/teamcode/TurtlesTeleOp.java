@@ -16,6 +16,9 @@ import org.firstinspires.ftc.teamcode.lib.util.states.State;
 
 public class TurtlesTeleOp extends Configurator {
     DcMotor armMotor;
+    private DcMotor leftOdometer;
+    private DcMotor rightOdometer;
+    private DcMotor centerOdometer;
     Servo claw;
     Servo claw2;
     Servo foundationGrabber;
@@ -28,6 +31,9 @@ public class TurtlesTeleOp extends Configurator {
 
     @Override
     public void setupOpMode() {
+        leftOdometer = getDcMotor("leftOdometer");
+        rightOdometer = getDcMotor("rightOdometer");
+        centerOdometer = getDcMotor("centerOdometer");
         odometer.setPos(new PVector(0, 0));
 
         odometer.beginOdometry();
@@ -83,6 +89,13 @@ public class TurtlesTeleOp extends Configurator {
             if (gamepad2.y) {
                 foundationGrabber.setPosition(0);
                 foundationGrabber2.setPosition(1);
+            }
+
+            if(debugMode) {
+                telemetry.addData("leftOdometer", leftOdometer);
+                telemetry.addData("centerOdometer", centerOdometer);
+                telemetry.addData("rightOdometer", rightOdometer);
+                telemetry.update();
             }
 
             return false;
