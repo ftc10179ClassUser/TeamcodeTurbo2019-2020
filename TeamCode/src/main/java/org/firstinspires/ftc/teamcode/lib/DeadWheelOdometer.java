@@ -1,20 +1,15 @@
 package org.firstinspires.ftc.teamcode.lib;
 
-import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
-import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
-import org.firstinspires.ftc.robotcore.external.navigation.Velocity;
 import org.firstinspires.ftc.teamcode.lib.util.data.PVector;
 import org.firstinspires.ftc.teamcode.lib.util.states.State;
 
 public class DeadWheelOdometer {
     private Configurator config;
-    private DcMotor leftOdometer;
-    private DcMotor rightOdometer;
-    private DcMotor centerOdometer;
+    public DcMotor leftOdometer;
+    public DcMotor rightOdometer;
+    public DcMotor centerOdometer;
     private PVector robotPos;
     private double robotRot;
 
@@ -52,8 +47,10 @@ public class DeadWheelOdometer {
                 (leftDistChange + rightDistChange) / 2.0
         );
 
-        if (config.getDebugMode()) config.telemetry.addLine("LocalPos: (" + Math.round(localRobotPos.x*100)/100 + ", " + Math.round(localRobotPos.y*100)/100 + ")");
-        if (config.getDebugMode()) config.telemetry.addLine("LocalRot: " + Math.round(localRobotRot*100)/100);
+        if (config.getDebugMode()) {
+            config.telemetry.addLine("LocalPos: (" + Math.round(localRobotPos.x * 100) / 100 + ", " + Math.round(localRobotPos.y * 100) / 100 + ")");
+            config.telemetry.addLine("LocalRot: " + Math.round(localRobotRot * 100) / 100);
+        }
 
         //Clip rotation
         double addedRotation = robotRot - localRobotRot;
@@ -95,8 +92,10 @@ public class DeadWheelOdometer {
             odometryLoop();
 
             //Telemetry
-            if (config.getDebugMode()) config.telemetry.addLine("Pos: (" + Math.round(robotPos.x*100)/100 + ", " + Math.round(robotPos.y*100)/100 + ")");
-            if (config.getDebugMode()) config.telemetry.addLine("Rot: " + Math.round(robotRot*100)/100);
+            if (config.getDebugMode()) {
+                config.telemetry.addLine("Pos: (" + Math.round(robotPos.x*100)/100 + ", " + Math.round(robotPos.y*100)/100 + ")");
+                config.telemetry.addLine("Rot: " + Math.round(robotRot*100)/100);
+            }
             return false;
         }, () -> {}, "Odometry");
 

@@ -69,7 +69,17 @@ public class TurtlesTeleOp extends Configurator {
             if (armMotor.getCurrentPosition() <= 0 && armLimit)
                 armSpeed = Range.clip(armSpeed, 0, 1);
             armMotor.setPower(Range.clip(armSpeed + 0.05, -1, 1));
-            telemetry.addData("armMotor", armMotor.getCurrentPosition());
+
+            if (getDebugMode()) {
+                telemetry.addData("armMotor", armMotor.getCurrentPosition());
+                try {
+                    telemetry.addData("leftOdometer", odometer.leftOdometer.getCurrentPosition());
+                    telemetry.addData("centerOdometer", odometer.centerOdometer.getCurrentPosition());
+                    telemetry.addData("rightOdometer", odometer.rightOdometer.getCurrentPosition());
+                } catch (Exception e) {
+
+                }
+            }
 
             if (gamepad1.b) wheelController.runWithoutEncoder();//If Driver 1 presses B, run without encoders
             if (gamepad1.a) wheelController.runUsingEncoder();//If Driver 1 presses A, run using encoders
