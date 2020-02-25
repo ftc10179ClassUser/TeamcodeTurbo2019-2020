@@ -10,12 +10,15 @@ import org.firstinspires.ftc.teamcode.lib.util.states.State;
 @Autonomous(name="NearRedSquare")
 public class NearRedSquare extends AutonomousLibrary {//Note: states are backwards, the one at the end runs first
     Servo claw;
+    Servo claw2;
 
     @Override
     public void setupOpMode(){
-        //Get the claw servo and open it
+        //Get the claw servos and open it
         claw = getServo("claw");
+        claw2 = getServo("claw2");
         claw.setPosition(0);
+        claw2.setPosition(1);
 
         State strafeRightToSkybridge = new SingleState(() -> {
             moveRightCentimeters(85, 0.5);//Strafe right 85 cm at 0.5 speed to the skybridge
@@ -52,7 +55,7 @@ public class NearRedSquare extends AutonomousLibrary {//Note: states are backwar
 
         State strafeLeftToAlign = new SingleState(() -> {
             //Strafe left 7cm at 0.5 speed to align with a stone, and run moveForwardToStone afterward
-            moveRightCentimeters(-7, -0.5, moveForwardToStone);
+            moveRightCentimeters(7, 0.5, moveForwardToStone);
         }, "StrafeLeftToAlign");
 
         stateMachine.addState(strafeLeftToAlign);//After we set up the states, we add the first one to our state machine

@@ -14,9 +14,10 @@ public class NearBlueTriangle extends AutonomousLibrary {//Note: states are back
 
     @Override
     public void setupOpMode() {
-        foundationGrabber = getServo("foundationGrabber"); //Get the foundation grabber servo
+        //Get the foundation grabber servos and open it
+        foundationGrabber = getServo("foundationGrabber");
         foundationGrabber.setPosition(0);
-        foundationGrabber2 = getServo("foundationGrabber2"); //Get the foundation grabber servo
+        foundationGrabber2 = getServo("foundationGrabber2");
         foundationGrabber2.setPosition(1);
 
         State strafeRightToBridge = new StartState(() -> {
@@ -24,8 +25,10 @@ public class NearBlueTriangle extends AutonomousLibrary {//Note: states are back
         }, () -> true, () -> {}, "StrafeRightToBridge");
 
         State releasePlatform = new State(() -> {
-            foundationGrabber.setPosition(0); //Open the foundation grabber servo
+            //Open the foundation grabber
+            foundationGrabber.setPosition(0);
             foundationGrabber2.setPosition(1);
+
             return false;
         }, () -> { //When the state is done
             stateMachine.addState(strafeRightToBridge); //Run strafeRightToBridge
@@ -37,8 +40,10 @@ public class NearBlueTriangle extends AutonomousLibrary {//Note: states are back
         }, () -> true, () -> {},"MoveBackwardFromPlatform");
 
         State grabPlatform = new State(() -> {
-            foundationGrabber.setPosition(1); //Close the foundation grabber servo
+            //Close the foundation grabber
+            foundationGrabber.setPosition(1);
             foundationGrabber2.setPosition(0);
+
             return false;
         }, () -> { //When the state is done
             stateMachine.addState(moveBackwardFromPlatform); //Run moveBackwardFromPlatform
