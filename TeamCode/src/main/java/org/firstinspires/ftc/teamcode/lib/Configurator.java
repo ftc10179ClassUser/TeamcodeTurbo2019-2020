@@ -12,6 +12,7 @@ import org.firstinspires.ftc.teamcode.lib.util.debug.TimeTracker;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 @Disabled
 public abstract class Configurator extends OpMode{
@@ -20,6 +21,7 @@ public abstract class Configurator extends OpMode{
     public DcMotor frontRight;
     public DcMotor backLeft;
     public DcMotor backRight;
+    String[] stackTrace = null;
 
     //Debug mode, one place to enable all debug logging; enabled by pressing ABXY on Driver 1.
     private boolean debugMode = false;
@@ -118,22 +120,39 @@ public abstract class Configurator extends OpMode{
 
     @Override
     public void loop() {
-        if (getDebugMode()) timer.reset();
         telemetry.clearAll();
-        if (gamepad1.a && gamepad1.b && gamepad1.x && gamepad1.y) debugMode = true;
-        wheelController.detectMotorFault();
-        stateMachine.runStates();
-        if (getDebugMode()) {
-            if(avgTime.size() > 50) {
-                avgTime.remove(0);
+        if (stackTrace == null) {
+            try {
+                if (getDebugMode()) timer.reset();
+                if (gamepad1.a && gamepad1.b && gamepad1.x && gamepad1.y) debugMode = true;
+                wheelController.detectMotorFault();
+                stateMachine.runStates();
+                if (getDebugMode()) {
+                    if (avgTime.size() > 50) {
+                        avgTime.remove(0);
+                    }
+                    avgTime.add(timer.seconds());
+                    telemetry.addLine("CFG: Runtime was " + Math.round(timer.seconds() * 1000) + "ms");
+                    double total = 0;
+                    for (double d : avgTime) {
+                        total += d;
+                    }
+                    telemetry.addData("CFG: Avg Runtime was", Math.round(total / avgTime.size() * 1000) + "ms");
+                }
+            } catch (Exception e) {
+                StackTraceElement[] elements = e.getStackTrace();
+                stackTrace = new String[elements.length];
+                for (int j = 0; j < elements.length; j++) {
+                    stackTrace[j] = "Class: " + elements[j].getClassName() + " Method: " + elements[j].getMethodName() + " (" + elements[j].getLineNumber() + ")";
+                }
             }
-            avgTime.add(timer.seconds());
-            telemetry.addLine("CFG: Runtime was " + Math.round(timer.seconds() * 1000) + "ms");
-            double total = 0;
-            for (double d : avgTime) {
-                total += d;
+        } else {
+            telemetry.addLine("YAY! User code threw an exception!");
+            telemetry.addLine("-- Begin Stack Trace --");
+            for (String s : stackTrace) {
+                telemetry.addLine();
             }
-            telemetry.addData("CFG: Avg Runtime was", Math.round(total/avgTime.size() * 1000) + "ms");
+            telemetry.addLine("-- End Stack Trace --");
         }
         telemetry.update();
     }

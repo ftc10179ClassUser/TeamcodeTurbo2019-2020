@@ -11,7 +11,6 @@ public class StateMachine {
     Configurator config; //Configurator instance that this StateMachine is attached to
     boolean paused; //Ask if the state machine is paused
     boolean firstPause = true;
-    String[] stackTrace = null;
 
     StateMachine(Configurator config) {
         //Save the config & initialize arrays
@@ -25,60 +24,44 @@ public class StateMachine {
     }
 
     void runStates() {
-        if (stackTrace == null) {
-            //Be able to pause the states if we're in debug mode
-            if (config.getDebugMode() && config.gamepad1.x && config.gamepad1.y) {
-                config.wheelController.stopWheels();
-                if (firstPause) {
-                    paused = !paused;
-                }
-                firstPause = false;
-            } else {
-                firstPause = true;
+
+        //Be able to pause the states if we're in debug mode
+        if (config.getDebugMode() && config.gamepad1.x && config.gamepad1.y) {
+            config.wheelController.stopWheels();
+            if (firstPause) {
+                paused = !paused;
             }
-
-            if (!paused) {
-                //Add states before for thread safety
-                for (State state : statesToAdd) {
-                    if (config.getDebugMode()) state.debugMode = true;
-                    states.add(0, state);
-                }
-                statesToAdd.clear();
-
-                //Loop through each state
-                ArrayList<State> statesToRemove = new ArrayList<>();
-                for (int i = 0; i < states.size(); i++) {
-                    if (config.getDebugMode()/* && states.get(i).getStateName() != "Hidden"*/) { //Show in telemetry unless its hidden
-                        config.telemetry.addLine(
-                                "-- " + states.get(i).getStateName() + "(avg = " + states.get(i).getAvgRuntime() + "ms) --"
-                        );
-                    }
-
-                    try {
-                        if (states.get(i).execute()) {
-                            statesToRemove.add(states.get(i)); //Run the state and remove if it wants to be
-                        }
-                    } catch (Exception e) {
-                        StackTraceElement[] elements = e.getStackTrace();
-                        stackTrace = new String[elements.length];
-                        for (int j = 0; j < elements.length; j++) {
-                            stackTrace[j] = "Class: " + elements[j].getClassName() + " Method: " + elements[j].getMethodName() + " (" + elements[j].getLineNumber() + ")";
-                        }
-                    }
-                }
-
-                //Remove states after for thread safety
-                for (State state : statesToRemove) {
-                    states.remove(state);
-                }
-            }
+            firstPause = false;
         } else {
-            config.telemetry.addLine("YAY! User code threw an exception!");
-            config.telemetry.addLine("-- Begin Stack Trace --");
-            for (String s : stackTrace) {
-                config.telemetry.addLine();
+            firstPause = true;
+        }
+
+        if (!paused) {
+            //Add states before for thread safety
+            for (State state : statesToAdd) {
+                if (config.getDebugMode()) state.debugMode = true;
+                states.add(0, state);
             }
-            config.telemetry.addLine("-- End Stack Trace --");
+            statesToAdd.clear();
+
+            //Loop through each state
+            ArrayList<State> statesToRemove = new ArrayList<>();
+            for (int i = 0; i < states.size(); i++) {
+                if (config.getDebugMode()/* && states.get(i).getStateName() != "Hidden"*/) { //Show in telemetry unless its hidden
+                    config.telemetry.addLine(
+                            "-- " + states.get(i).getStateName() + "(avg = " + states.get(i).getAvgRuntime() + "ms) --"
+                    );
+                }
+
+                if (states.get(i).execute()) {
+                    statesToRemove.add(states.get(i)); //Run the state and remove if it wants to be
+                }
+            }
+
+            //Remove states after for thread safety
+            for (State state : statesToRemove) {
+                states.remove(state);
+            }
         }
     }
 }
