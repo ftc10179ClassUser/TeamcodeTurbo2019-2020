@@ -5,7 +5,7 @@ import org.firstinspires.ftc.teamcode.lib.util.states.State;
 
 import java.util.ArrayList;
 
-public class StateMachine {
+public class StateMachine { //TODO: Lambdas are sloooooow
     ArrayList<State> states; //All of the current running states
     ArrayList<State> statesToAdd; //States that need to be added to the list of running states
     Configurator config; //Configurator instance that this StateMachine is attached to

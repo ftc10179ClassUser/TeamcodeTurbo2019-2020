@@ -35,11 +35,17 @@ public class DeadWheelOdometer {
     double centerCircumference = Math.abs(centerWheelPos.y - ((rightWheelPos.y + leftWheelPos.y)/2)) * 2.0 * Math.PI;
 
     private void odometryLoop() {
-        double leftDistChange = -(((leftOdometer.getCurrentPosition() - oldLeftEncoder) * ticksToDegrees) * (wheelCircumference / 360));
-        double rightDistChange = ((rightOdometer.getCurrentPosition() - oldRightEncoder) * ticksToDegrees) * (wheelCircumference / 360);
-        double centerDistChange = ((centerOdometer.getCurrentPosition() - oldCenterEncoder) * ticksToDegrees) * (wheelCircumference / 360);
+        if (config.getDebugMode()) {
+            config.telemetry.addData("leftOdometer", -leftOdometer.getCurrentPosition());
+            config.telemetry.addData("centerOdometer", -centerOdometer.getCurrentPosition());
+            config.telemetry.addData("rightOdomenter", -rightOdometer.getCurrentPosition());
+        }
 
-        double localRobotRot = (((leftDistChange - rightDistChange) / 2.0) / turnCircumference) * 360.0;
+        double leftDistChange = (((-leftOdometer.getCurrentPosition() - oldLeftEncoder) * ticksToDegrees) / 360) * wheelCircumference;
+        double rightDistChange = (((-rightOdometer.getCurrentPosition() - oldRightEncoder) * ticksToDegrees) / 360) * wheelCircumference;
+        double centerDistChange = (((-centerOdometer.getCurrentPosition() - oldCenterEncoder) * ticksToDegrees) / 360) * wheelCircumference;
+
+        double localRobotRot = (((leftDistChange - rightDistChange) / 2.0) / turnCircumference);
 
         PVector localRobotPos;
         localRobotPos = new PVector(
@@ -66,9 +72,9 @@ public class DeadWheelOdometer {
         setPos(PVector.add(robotPos, rotated));
 
         //Update all of the "old" values
-        oldLeftEncoder = leftOdometer.getCurrentPosition();
-        oldRightEncoder = rightOdometer.getCurrentPosition();
-        oldCenterEncoder = centerOdometer.getCurrentPosition();
+        oldLeftEncoder = -leftOdometer.getCurrentPosition();
+        oldRightEncoder = -rightOdometer.getCurrentPosition();
+        oldCenterEncoder = -centerOdometer.getCurrentPosition();
     }
     
     public DeadWheelOdometer(Configurator config) { //Store the config
@@ -82,9 +88,9 @@ public class DeadWheelOdometer {
         centerOdometer = config.getDcMotor("centerOdometer");
 
         //Update all of the "old" values
-        oldLeftEncoder = leftOdometer.getCurrentPosition();
-        oldRightEncoder = rightOdometer.getCurrentPosition();
-        oldCenterEncoder = centerOdometer.getCurrentPosition();
+        oldLeftEncoder = -leftOdometer.getCurrentPosition();
+        oldRightEncoder = -rightOdometer.getCurrentPosition();
+        oldCenterEncoder = -centerOdometer.getCurrentPosition();
 
         //Add a state to run odometry functions every tick
         State odometryState = new State(() -> {
