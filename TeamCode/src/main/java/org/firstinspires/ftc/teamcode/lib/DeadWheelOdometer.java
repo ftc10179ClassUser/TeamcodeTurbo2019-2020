@@ -19,12 +19,13 @@ public class DeadWheelOdometer {
     private double oldCenterEncoder = -1;
 
     //Configure these to our wheels and wheelbase, measure in centimeters
-    private PVector leftWheelPos = new PVector(-7.0, 4.0);
-    private PVector centerWheelPos = new PVector(0.0, -6.0);
-    private PVector rightWheelPos = new PVector(7.0, 4.0);
+    private PVector leftWheelPos = new PVector(-6.6675, 3.4925);
+    private PVector centerWheelPos = new PVector(0.0, -6.985);
+    private PVector rightWheelPos = new PVector(6.6675, 3.4925);
     double wheelRadius = 3;
-    double strafeEfficiency = 1.0;
-    double forwardEfficiency = 1.0;
+    double strafeEfficiency = 1.22486159773;
+    double forwardEfficiency = 1.17887202895;
+    double turnEfficiency = 1.11766236842;
 
     //Configure this to our motors
     double ticksToDegrees = 360.0/8192.0;
@@ -45,7 +46,7 @@ public class DeadWheelOdometer {
         double rightDistChange = (((-rightOdometer.getCurrentPosition() - oldRightEncoder) * ticksToDegrees) / 360) * wheelCircumference;
         double centerDistChange = (((-centerOdometer.getCurrentPosition() - oldCenterEncoder) * ticksToDegrees) / 360) * wheelCircumference;
 
-        double localRobotRot = (((leftDistChange - rightDistChange) / 2.0) / turnCircumference);
+        double localRobotRot = (((leftDistChange - rightDistChange) / 2.0) / turnCircumference) * 360 * turnEfficiency;
 
         PVector localRobotPos;
         localRobotPos = new PVector(
@@ -99,8 +100,8 @@ public class DeadWheelOdometer {
 
             //Telemetry
             if (config.getDebugMode()) {
-                config.telemetry.addLine("Pos: (" + Math.round(robotPos.x*100)/100 + ", " + Math.round(robotPos.y*100)/100 + ")");
-                config.telemetry.addLine("Rot: " + Math.round(robotRot*100)/100);
+                config.telemetry.addLine("Pos: (" + robotPos.x + ", " + robotPos.y + ")");
+                config.telemetry.addLine("Rot: " + robotRot);
             }
             return false;
         }, () -> {}, "Odometry");

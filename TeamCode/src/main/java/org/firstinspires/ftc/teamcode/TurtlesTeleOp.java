@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.TouchSensor;
 import com.qualcomm.robotcore.util.Range;
 
+import org.firstinspires.ftc.teamcode.lib.AutonomousLibrary;
 import org.firstinspires.ftc.teamcode.lib.Configurator;
 import org.firstinspires.ftc.teamcode.lib.DeadWheelOdometer;
 import org.firstinspires.ftc.teamcode.lib.MecanumOdometer;
@@ -14,7 +15,7 @@ import org.firstinspires.ftc.teamcode.lib.util.states.State;
 
 @TeleOp(name="TeleOp", group="default")
 
-public class TurtlesTeleOp extends Configurator {
+public class TurtlesTeleOp extends AutonomousLibrary {
     //Declare hardware
     DcMotor armMotor;
     Servo claw;
@@ -27,6 +28,8 @@ public class TurtlesTeleOp extends Configurator {
     double slowMode = 1;
     boolean slowModeJustSwapped = false;
     boolean armLimit = true;
+
+    boolean foolean = false;
 
     //Declare our dead wheel odometer
     DeadWheelOdometer odometer = new DeadWheelOdometer(this);
@@ -52,6 +55,15 @@ public class TurtlesTeleOp extends Configurator {
         wheelController.crispDrive = false; //Make the driving un-crispy
 
         stateMachine.addState(new State(() -> { //Create a new state
+            if (gamepad1.x) {
+                if (!foolean) {
+                    setTargetXYRot(new PVector(0,0), 0);
+                }
+                foolean = true;
+            } else {
+                foolean = false;
+            }
+
             //If Driver 1 presses either bumper, toggle slowMode
             if ((gamepad1.right_bumper || gamepad1.left_bumper) && !slowModeJustSwapped) {
                 slowMode = (slowMode == 1) ? 2 : 1;
