@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.util.Range;
 public class HighPerformanceWheelController { //This class can be changed for each drive train without breaking our library
     //The configurator that this WheelController is attached to
     Configurator config;
-    
+
     @Deprecated
     public boolean crispDrive = false;
 
