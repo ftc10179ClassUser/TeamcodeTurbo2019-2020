@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -10,10 +11,11 @@ import org.firstinspires.ftc.teamcode.lib.AutonomousLibrary;
 import org.firstinspires.ftc.teamcode.lib.Configurator;
 import org.firstinspires.ftc.teamcode.lib.DeadWheelOdometer;
 import org.firstinspires.ftc.teamcode.lib.MecanumOdometer;
+import org.firstinspires.ftc.teamcode.lib.util.command.BooleanCommand;
 import org.firstinspires.ftc.teamcode.lib.util.data.PVector;
 import org.firstinspires.ftc.teamcode.lib.util.states.State;
 
-@TeleOp(name="TeleOp", group="default")
+@TeleOp(name="TeleOp")
 
 public class TurtlesTeleOp extends Configurator {
     //Declare hardware

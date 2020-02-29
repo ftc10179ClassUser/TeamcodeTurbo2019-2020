@@ -21,6 +21,8 @@ public abstract class Configurator extends OpMode{
     public DcMotor frontRight;
     public DcMotor backLeft;
     public DcMotor backRight;
+
+    private String error = null;
     StackTraceElement[] stackTrace = null;
 
     //Debug mode, one place to enable all debug logging; enabled by pressing ABXY on Driver 1.
@@ -110,6 +112,7 @@ public abstract class Configurator extends OpMode{
         try {
             setupOpMode();
         } catch (Exception e) {
+            error = e.getMessage();
             stackTrace = e.getStackTrace();
             telemetry.addLine("YAY! User code threw an exception, press start for more info.");
         }
@@ -145,11 +148,12 @@ public abstract class Configurator extends OpMode{
                     telemetry.addData("CFG: Avg Runtime was", Math.round(total / avgTime.size() * 1000) + "ms");
                 }
             } catch (Exception e) {
+                error = e.getMessage();
                 stackTrace = e.getStackTrace();
             }
         } else {
             wheelController.stopWheels();
-            telemetry.addLine("YAY! User code threw an exception!");
+            telemetry.addLine("YAY! User code threw an exception! (" + error + ")");
             telemetry.addLine("-- Begin Stack Trace --");
             for (StackTraceElement s : stackTrace) {
                 telemetry.addLine("File: " + s.getFileName() + " Class: " + s.getClassName() + " Method: " + s.getMethodName() + " (" + s.getLineNumber() + ")");
