@@ -114,7 +114,10 @@ public class WheelController { //This class can be changed for each drive train 
     }
 
     public void stopWheels() {
-        moveXY(0,0);
+        frontLeft.setPower(0);
+        frontRight.setPower(0);
+        backLeft.setPower(0);
+        backRight.setPower(0);
     }
 
     public void runUsingEncoder() {

@@ -27,8 +27,8 @@ public abstract class Configurator extends OpMode{
     private boolean debugMode = false;
 
     //These are stored for the user
-    public StateMachine stateMachine;
-    public WheelController wheelController;
+    public HighPerformanceStateMachine stateMachine;
+    public HighPerformanceWheelController wheelController;
 
     ElapsedTime timer = new ElapsedTime();
     List<Double> avgTime = new ArrayList<>();
@@ -104,8 +104,8 @@ public abstract class Configurator extends OpMode{
         backLeft = getDcMotor("backLeft");
         backRight = getDcMotor("backRight");
 
-        stateMachine = new StateMachine(this);
-        wheelController = new WheelController(this);
+        stateMachine = new HighPerformanceStateMachine(this);
+        wheelController = new HighPerformanceWheelController(this);
 
         try {
             setupOpMode();
@@ -125,14 +125,14 @@ public abstract class Configurator extends OpMode{
 
     @Override
     public void loop() {
-        telemetry.clearAll();
+        if (!stateMachine.paused) telemetry.clearAll();
         if (stackTrace == null) {
             try {
-                if (getDebugMode()) timer.reset();
+                if (getDebugMode() && !stateMachine.paused) timer.reset();
                 if (gamepad1.a && gamepad1.b && gamepad1.x && gamepad1.y) debugMode = true;
                 wheelController.detectMotorFault();
                 stateMachine.runStates();
-                if (getDebugMode()) {
+                if (getDebugMode() && !stateMachine.paused) {
                     if (avgTime.size() > 50) {
                         avgTime.remove(0);
                     }
@@ -148,6 +148,7 @@ public abstract class Configurator extends OpMode{
                 stackTrace = e.getStackTrace();
             }
         } else {
+            wheelController.stopWheels();
             telemetry.addLine("YAY! User code threw an exception!");
             telemetry.addLine("-- Begin Stack Trace --");
             for (StackTraceElement s : stackTrace) {
@@ -155,7 +156,7 @@ public abstract class Configurator extends OpMode{
             }
             telemetry.addLine("-- End Stack Trace --");
         }
-        telemetry.update();
+        if (!stateMachine.paused) telemetry.update();
     }
 
     //Safely access debug mode so that it cannot be set anywhere but here

@@ -15,7 +15,7 @@ import org.firstinspires.ftc.teamcode.lib.util.states.State;
 
 @TeleOp(name="TeleOp", group="default")
 
-public class TurtlesTeleOp extends AutonomousLibrary {
+public class TurtlesTeleOp extends Configurator {
     //Declare hardware
     DcMotor armMotor;
     Servo claw;
@@ -29,17 +29,8 @@ public class TurtlesTeleOp extends AutonomousLibrary {
     boolean slowModeJustSwapped = false;
     boolean armLimit = true;
 
-    boolean alreadyDeadW = false;
-
-    //Declare our dead wheel odometer
-    DeadWheelOdometer odometer = new DeadWheelOdometer(this);
-
     @Override
     public void setupOpMode() {
-        //Set up and begin odometry
-        odometer.setPos(new PVector(0, 0));
-        odometer.beginOdometry();
-
         //Initialize hardware
         armMotor = getDcMotor("armMotor");
         claw = getServo("claw");
@@ -55,14 +46,6 @@ public class TurtlesTeleOp extends AutonomousLibrary {
         wheelController.crispDrive = false; //Make the driving un-crispy
 
         stateMachine.addState(new State(() -> { //Create a new state
-            if (gamepad1.x) {
-                if (!alreadyDeadW) {
-                    setTargetXYRot(new PVector(0,0), 0);
-                }
-                alreadyDeadW = true;
-            } else {
-                alreadyDeadW = false;
-            }
 
             //If Driver 1 presses either bumper, toggle slowMode
             if ((gamepad1.right_bumper || gamepad1.left_bumper) && !slowModeJustSwapped) {
@@ -84,13 +67,6 @@ public class TurtlesTeleOp extends AutonomousLibrary {
 
             if (getDebugMode()) {
                 telemetry.addData("armMotor", armMotor.getCurrentPosition());
-                try {
-                    telemetry.addData("leftOdometer", odometer.leftOdometer.getCurrentPosition());
-                    telemetry.addData("centerOdometer", odometer.centerOdometer.getCurrentPosition());
-                    telemetry.addData("rightOdometer", odometer.rightOdometer.getCurrentPosition());
-                } catch (Exception e) {
-
-                }
             }
 
             if (gamepad1.b) wheelController.runWithoutEncoder();//If Driver 1 presses B, run without encoders
