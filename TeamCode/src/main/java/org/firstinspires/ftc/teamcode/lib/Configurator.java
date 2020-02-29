@@ -26,7 +26,7 @@ public abstract class Configurator extends OpMode{
     StackTraceElement[] stackTrace = null;
 
     //Debug mode, one place to enable all debug logging; enabled by pressing ABXY on Driver 1.
-    private boolean debugMode = true;
+    private boolean debugMode = false;
 
     //These are stored for the user
     public HighPerformanceStateMachine stateMachine;
