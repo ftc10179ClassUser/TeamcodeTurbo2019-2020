@@ -29,7 +29,7 @@ public class TurtlesTeleOp extends AutonomousLibrary {
     boolean slowModeJustSwapped = false;
     boolean armLimit = true;
 
-    boolean foolean = false;
+    boolean alreadyDeadW = false;
 
     //Declare our dead wheel odometer
     DeadWheelOdometer odometer = new DeadWheelOdometer(this);
@@ -56,12 +56,12 @@ public class TurtlesTeleOp extends AutonomousLibrary {
 
         stateMachine.addState(new State(() -> { //Create a new state
             if (gamepad1.x) {
-                if (!foolean) {
+                if (!alreadyDeadW) {
                     setTargetXYRot(new PVector(0,0), 0);
                 }
-                foolean = true;
+                alreadyDeadW = true;
             } else {
-                foolean = false;
+                alreadyDeadW = false;
             }
 
             //If Driver 1 presses either bumper, toggle slowMode
