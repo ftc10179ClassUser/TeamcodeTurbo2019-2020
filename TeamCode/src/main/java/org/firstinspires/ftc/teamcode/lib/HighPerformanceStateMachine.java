@@ -22,37 +22,44 @@ public class HighPerformanceStateMachine {
     }
 
     public void addState(State state) { //Add a state safely
-        statesToAdd[++addingStates] = state;
+        statesToAdd[addingStates++] = state;
     }
 
     void runStates() {
         if (!paused) {
             //Add states before for thread safety
-            for (int i = 0; i < addingStates; i++) {
-                states[++runningStates] = statesToAdd[i];
+            if (addingStates > 0) {
+                for (int i = 0; i < addingStates; i++) {
+                    states[runningStates++] = statesToAdd[i];
+                }
+                addingStates = 0;
             }
-            addingStates = 0;
 
             //Loop through each state
             int[] statesToRemove = new int[maxStates];
             int removingState = 0;
-            for (int i = 0; i < runningStates; i++) {
-                if (states[i].execute()) {
-                    statesToRemove[++removingState] = i; //Run the state and remove if it wants to be
+            if (runningStates > 0) {
+                for (int i = 0; i < runningStates; i++) {
+                    config.telemetry.addLine("State: " + states[i].getStateName());
+                    if (states[i].execute()) {
+                        statesToRemove[removingState++] = i; //Run the state and remove if it wants to be
+                    }
                 }
             }
 
-            //Remove states after for thread safety
-            for (int i = 0; i < removingState; i++) {
-                states[statesToRemove[i]] = null;
+            if (removingState > 0) {
+                //Remove states after for thread safety
+                for (int i = 0; i < removingState; i++) {
+                    states[statesToRemove[i]] = null;
 
-                for (int j = 0; j < runningStates; j++) {
-                    if (states[j] == null) {
-                        for (int k = j+1; k < runningStates; k++) {
-                            states[k-1] = states[k];
+                    for (int j = 0; j < runningStates; j++) {
+                        if (states[j] == null) {
+                            for (int k = j + 1; k < runningStates; k++) {
+                                states[k - 1] = states[k];
+                            }
+                            runningStates--;
+                            break;
                         }
-                        runningStates--;
-                        break;
                     }
                 }
             }
